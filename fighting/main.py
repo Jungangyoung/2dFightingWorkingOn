@@ -21,8 +21,9 @@ WHITE = (255, 255, 255)
 
 #define fighter variables
 ICARA_SIZE = 128
-ICARA_SCALE = 1
-ICARA_DATA = [ICARA_SIZE, ICARA_SCALE]
+ICARA_SCALE = 1.25
+ICARA_OFFSET = [-10, -50]
+ICARA_DATA = [ICARA_SIZE, ICARA_SCALE, ICARA_OFFSET]
 
 #load background image
 background = pygame.image.load("image/background.png").convert_alpha()
