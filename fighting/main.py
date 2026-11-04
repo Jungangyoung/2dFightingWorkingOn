@@ -19,10 +19,21 @@ RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
 
+#define fighter variables
+ICARA_SIZE = 128
+ICARA_SCALE = 1
+ICARA_DATA = [ICARA_SIZE, ICARA_SCALE]
+
 #load background image
-background = pygame.image.load("image/background.jpeg").convert_alpha()
+background = pygame.image.load("image/background.png").convert_alpha()
 
+#load spritesheets
+icara_sheet = pygame.image.load("image/logo.png").convert_alpha()
 
+#define animation steps
+ICARA_ANIMATION_STEPS = [1]
+
+#create background
 def draw_background():
     scaled_background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
     screen.blit(scaled_background, (0, 0))
@@ -35,8 +46,8 @@ def draw_health_bar(health, x, y):
     pygame.draw.rect(screen, YELLOW, pygame.Rect(x, y, 400 * ratio, 30))
     
 #create two instances of fighters:
-fighter_1 = Fighter(150, 310)
-fighter_2 = Fighter(800, 310)
+fighter_1 = Fighter(150, 310, ICARA_DATA, icara_sheet, ICARA_ANIMATION_STEPS)
+fighter_2 = Fighter(800, 310, ICARA_DATA, icara_sheet, ICARA_ANIMATION_STEPS)
 
 
 #game loop
