@@ -19,6 +19,12 @@ RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
 
+#define game variables
+intro_count = 3
+last_count_update = pygame.time.get_ticks()
+score = [0, 0]#[player1_score, player2_score]
+round_over = False
+
 #define fighter variables
 ICARA_SIZE = 256
 ICARA_SCALE = 1.25
@@ -34,6 +40,15 @@ icara_sheet = pygame.image.load("image/test.png").convert_alpha()
 #define animation steps
 ICARA_ANIMATION_STEPS = [10, 8, 1, 7, 7, 3, 7]
 
+#define font
+count_font = pygame.font.SysFont("Arial", 80)
+score_font = pygame.font.SysFont("Arial", 30)
+
+#function for drawing text
+def draw_text(text, font, text_col, x, y):
+    img = font.render(text, True, text_col)
+    screen.blit(img, (x, y))
+
 #create background
 def draw_background():
     scaled_background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -47,8 +62,8 @@ def draw_health_bar(health, x, y):
     pygame.draw.rect(screen, YELLOW, pygame.Rect(x, y, 400 * ratio, 30))
     
 #create two instances of fighters:
-fighter_1 = Fighter(150, 310, False, ICARA_DATA, icara_sheet, ICARA_ANIMATION_STEPS)
-fighter_2 = Fighter(800, 310, True, ICARA_DATA, icara_sheet, ICARA_ANIMATION_STEPS)
+fighter_1 = Fighter(1, 150, 310, False, ICARA_DATA, icara_sheet, ICARA_ANIMATION_STEPS)
+fighter_2 = Fighter(2, 800, 310, True, ICARA_DATA, icara_sheet, ICARA_ANIMATION_STEPS)
 
 
 #game loop
@@ -66,9 +81,20 @@ while run:
     draw_health_bar(fighter_1.health, 20, 20)
     draw_health_bar(fighter_2.health, 680, 20)
     
-    #move fighters
-    fighter_1.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen, fighter_2)
-    
+    #update countdown
+    if intro_count <= 0:    
+        #move fighters
+        fighter_1.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen, fighter_2)
+        fighter_2.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen, fighter_1)
+    else: 
+        #display count timer
+        draw_text(str(intro_count), count_font, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 3)
+        #update count timer
+        if (pygame.time.get_ticks() - last_count_update) >= 1000:
+            intro_count -= 1
+            last_count_update = pygame.time.get_ticks()
+            #print(intro_count)
+                          
     #update fighters
     fighter_1.update()
     fighter_2.update()
