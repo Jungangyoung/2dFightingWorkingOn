@@ -1,3 +1,13 @@
+import os
+import sys
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.dirname(os.path.abspath(__file__))
+
+    return os.path.join(base_path, relative_path)
 import pygame
 from pygame import mixer
 from fighter import Fighter
@@ -36,20 +46,27 @@ ICARA_DATA = [ICARA_SIZE, ICARA_SCALE, ICARA_OFFSET]
 
 #### LOAD #####
 #load music and sounds
-pygame.mixer.music.load("audio/music.wav")
+pygame.mixer.music.load(resource_path("audio/music.wav"))
 pygame.mixer.music.set_volume(0.5)
 pygame.mixer.music.play(-1, 0.0, 5000)
-hit_fx = pygame.mixer.Sound("audio/boung.wav")
+hit_fx = pygame.mixer.Sound(resource_path("audio/boung.wav"))
 hit_fx.set_volume(0.5)
 
 #load background image
-background = pygame.image.load("image/background.png").convert_alpha()
+background = pygame.image.load(
+    resource_path("image/background.png")
+).convert_alpha()
+
 
 #load spritesheets
-icara_sheet = pygame.image.load("image/test.png").convert_alpha()
+icara_sheet = pygame.image.load(
+    resource_path("image/test.png")
+).convert_alpha()
 
 #load victory image
-victory_img = pygame.image.load("image/victory.png").convert_alpha()
+victory_img = pygame.image.load(
+    resource_path("image/victory.png")
+).convert_alpha()
 
 #define animation steps
 ICARA_ANIMATION_STEPS = [10, 8, 1, 7, 7, 3, 7]
